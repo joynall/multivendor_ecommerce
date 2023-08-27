@@ -10,37 +10,40 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    public function AdminDashboard(){
+    public function AdminDashboard()
+    {
         return view('admin.index');
     }
 
-    public function AdminLogin(){
+    public function AdminLogin()
+    {
         return view('admin.admin_login');
     }
 
-    public function AdminProfile(){
+    public function AdminProfile()
+    {
         $id = Auth::user()->id;
         $adminData = User::find($id);
 
-        return view('admin.admin_profile_view',compact('adminData'));
-
+        return view('admin.admin_profile_view', compact('adminData'));
     }
 
-    public function AdminProfileStore(Request $request){
+    public function AdminProfileStore(Request $request)
+    {
 
         $id = Auth::user()->id;
         $data = User::find($id);
         $data->name = $request->name;
         $data->email = $request->email;
         $data->phone = $request->phone;
-        $data->address = $request->address; 
+        $data->address = $request->address;
 
 
         if ($request->file('photo')) {
             $file = $request->file('photo');
-            @unlink(public_path('upload/admin_images/'.$data->photo));
-            $filename = date('YmdHi').$file->getClientOriginalName();
-            $file->move(public_path('upload/admin_images'),$filename);
+            @unlink(public_path('upload/admin_images/' . $data->photo));
+            $filename = date('YmdHi') . $file->getClientOriginalName();
+            $file->move(public_path('upload/admin_images'), $filename);
             $data['photo'] = $filename;
         }
 
@@ -52,18 +55,19 @@ class AdminController extends Controller
         );
 
         return redirect()->back()->with($notification);
-
     }
 
-    public function AdminChangePassword(){
+    public function AdminChangePassword()
+    {
         return view('admin.admin_change_password');
     }
 
-    public function AdminUpdatePassword(Request $request){
+    public function AdminUpdatePassword(Request $request)
+    {
         // Validation 
         $request->validate([
             'old_password' => 'required',
-            'new_password' => 'required|confirmed', 
+            'new_password' => 'required|confirmed',
         ]);
 
         // Match The Old Password
@@ -77,8 +81,7 @@ class AdminController extends Controller
 
         ]);
         return back()->with("status", " Password Changed Successfully");
-
-    } 
+    }
 
 
 
@@ -92,6 +95,4 @@ class AdminController extends Controller
 
         return redirect('/admin/login');
     }
-
-    
 }

@@ -17,7 +17,7 @@ use App\Http\Controllers\VendorController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('frontend.index');
 });
 
 Route::get('/dashboard', function () {
@@ -49,6 +49,7 @@ Route::get('/admin/login',[AdminController::class, 'AdminLogin']);
 
 
 //Vendor all route
+
 Route::middleware(['auth','role:vendor'])->group(function(){
     Route::get('/vendor/dashboard',[VendorController::class, 'VendorDashboard'])->name('vendor.dashboard');
     Route::get('/vendor/logout',[vendorController::class, 'vendorDestroy'])->name('vendor.logout');

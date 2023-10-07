@@ -116,7 +116,20 @@ Route::middleware(['auth','role:admin'])->group(function() {
     
     });
    
-   
+    // Vendor Active and Inactive All Route 
+        Route::controller(AdminController::class)->group(function(){
+        Route::get('/inactive/vendor' , 'InactiveVendor')->name('inactive.vendor');
+        Route::get('/active/vendor' , 'ActiveVendor')->name('active.vendor');
+        Route::get('/inactive/vendor/details/{id}' , 'InactiveVendorDetails')->name('inactive.vendor.details');
+        Route::post('/active/vendor/approve' , 'ActiveVendorApprove')->name('active.vendor.approve');
+        Route::get('/active/vendor/details/{id}' , 'ActiveVendorDetails')->name('active.vendor.details');
+        Route::post('/inactive/vendor/approve' , 'InActiveVendorApprove')->name('inactive.vendor.approve');
+
+    });
+
+
+
+
    
    
    }); // End Middleware
